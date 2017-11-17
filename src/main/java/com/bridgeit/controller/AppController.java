@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bridgeit.model.User;
 import com.bridgeit.service.Service;
 import com.bridgeit.validation.Validation;
+
 @Controller
 public class AppController {
 	
@@ -21,14 +23,12 @@ public class AppController {
 	@Autowired
 	Service service;
 
-	@Autowired
-	User user;
 	
 	@Autowired
 	Validation validate;
 		
 	 @RequestMapping(value = {"/registration"}, method = RequestMethod.POST)
-	 public ModelAndView registration(@ModelAttribute("register") User user ) {
+	 public ModelAndView registration(@ModelAttribute("register") User user) {
 			ModelAndView modelAndView = new ModelAndView();
 
 			if(validate.userValidate(user)) {

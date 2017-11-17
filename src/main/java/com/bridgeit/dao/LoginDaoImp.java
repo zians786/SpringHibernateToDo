@@ -5,39 +5,38 @@ import java.sql.ResultSet;
 
 import java.sql.SQLException;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bridgeit.model.User;
 
-public class LoginDaoImp implements LoginDao {
-	@Autowired
-	JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	User user;
-	
-	public String loginValidate() {
-		
 
-		return jdbcTemplate.query("select * from registration where username='" +user.getUserName() + "' and password='"+user.getPassword()+"'",
-				new ResultSetExtractor<String>() {
-					public String extractData(ResultSet result) {
-						String name=null;
-						try {
-							if (result.next()) {
-								name="true";
-							}
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-						return name;
-					}
-				});
-		
+@Repository("loginDao")
+public class LoginDaoImp implements LoginDao {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	protected Session getSession() {
+		return sessionFactory.getCurrentSession();
 	}
-	
-	
-	
+
+
+	@Override
+	public String loginValidate(User user) {
+	Query query=getSession().createQuery("select email from User where userName='" +user.getUserName() + "' and password='"+user.getPassword()+"'");
+	String result=(String) query.uniqueResult();	
+	String name=null;
+	if (result!=null) {
+		name="true";
+	}
+	return name;
+	}	
 }

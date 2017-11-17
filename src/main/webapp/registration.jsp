@@ -70,7 +70,7 @@
                     </div>
                    
                    <div class="form-group">
-                      <input id="confirm" type="password" name="password" placeholder="Confirm Password..."class="form-control" required>
+                      <input id="confirm" type="password" name="confirmPassword" placeholder="Confirm Password..."class="form-control" required>
                       <span class="confirm" style="color:#19b9e7"></span>
                     </div>
                    
